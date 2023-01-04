@@ -1,0 +1,22 @@
+---
+- name: Exo 2
+  hosts: slave1
+  gather_facts: no 
+ 
+  tasks:
+  - name: Mouve file
+    file: path=private state=directory
+  
+  - name: Copy file
+    copy: 
+      src: files/secret.txt
+      dest: private
+
+  - name: Replace in file
+    replace:
+      dest: private/secret.txt
+      regexp: '\[father\]'
+      replace: 'slave1'
+      
+
+...
