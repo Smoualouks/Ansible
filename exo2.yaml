@@ -1,7 +1,8 @@
 ---
 - name: Exo 2
   hosts: slave1
-  gather_facts: no 
+
+ # gather_facts: no 
  
   tasks:
   - name: Mouve file
@@ -16,7 +17,6 @@
     replace:
       dest: private/secret.txt
       regexp: '\[father\]'
-      replace: 'slave1'
-      
+      replace: '{{ansible_hostname}}'   
 
 ...

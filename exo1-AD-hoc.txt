@@ -1,5 +1,5 @@
 a):
-    ansible -a 'mkir /tmp/log' slave1
+    ansible -a 'mkdir /tmp/log' slave1
  b):
     ansible -a 'touch /tmp/log/log1.txt' slave1
 c):
