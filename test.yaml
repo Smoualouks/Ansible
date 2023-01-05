@@ -1,0 +1,21 @@
+---
+- name: RWINA
+  hosts: slave1
+  become: yes
+  
+  tasks:
+
+  - name: Check that the somefile.conf exists
+    stat:
+      path: /etc/izm.txt
+    register: stat_result
+  
+  - name: show the value of stat_result
+    debug: var=stat_result
+  
+  - name: Create the file, if it doesnt exist already
+    file:
+      path: /etc/izm.txt
+      state: touch
+    when: not stat_result.stat.exists   # util pour fixer l'effet touch sur la date.
+...
