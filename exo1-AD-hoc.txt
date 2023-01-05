@@ -9,7 +9,9 @@ d):
    ansible -m shell -a 'echo "coucou" > /tmp/log/log1.txt' slave1
 e):
    ansible -a 'rm /tmp/log/log1.txt' slave1
+   ansible -m file -a 'path=/tmp/log/log1.txt state=absent' slave1
 f):
   ansible -a 'rm -r /tmp/log' slave1
+  ansible -m file -a 'path=/tmp/log state=absent' slave1
 
   
