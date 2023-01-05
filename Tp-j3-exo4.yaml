@@ -1,0 +1,22 @@
+---
+- name: TP eEXO 4
+  hosts: slave1
+  become: yes
+  
+  tasks:
+
+  - name: Copy file scrip in slave1
+    copy:
+      src: files/system.sh
+      dest: "system.sh"
+      mode: 755
+
+  - name: "executing script"
+    shell: ./system.sh 
+    ignore_errors: yes
+    register: output
+
+
+  - name: show the value of output
+    debug: var=output.stdout
+...

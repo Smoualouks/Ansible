@@ -1,0 +1,41 @@
+---
+
+- name: TP EXO 3
+  hosts: slave1
+
+  vars:
+    repo: https://gitlab.com/cdufour1/nodeapp.git
+    clone_dir: /tmp/nodeapp
+
+  tasks:
+
+  - name: Install Git
+    apt:
+      name: git
+      state: present
+    become: yes
+  - name: clone {{repo}}
+    git:
+      repo: "{{ repo }}"
+      dest: "{{ clone_dir }}"
+ 
+ # installation des paquets npm et nodejs
+  - name: Install nodejs and npm
+    apt:
+      pkg:
+      - nodejs
+      - npm
+    become: yes
+   
+  - name: Copy script.js in home directoy
+    
+    command: cp {{clone_dir}}/script.js .
+          
+  - name: run script.js
+    command:
+      cmd: node script.js
+    register: out1
+  
+  - debug: var=out1.stdout
+...
+
