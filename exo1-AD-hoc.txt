@@ -4,7 +4,7 @@ a):
     ansible -a 'touch /tmp/log/log1.txt' slave1
 c):
    ansible -a 'chmod 755 /tmp/log/log1.txt' slave1
-
+   ansible -m file -a "path=/tmp/log/log1.txt state=file mode=755"
 d):
    ansible -m shell -a 'echo "coucou" > /tmp/log/log1.txt' slave1
 e):

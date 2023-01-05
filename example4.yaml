@@ -1,0 +1,26 @@
+---
+- name: Exemple 4
+  hosts: slave1
+  gather_facts: yes
+  
+
+
+  tasks:
+  - name: Install apache
+    
+    # file:
+    #   # path: /tmp/rootfile
+    #   # state: touch
+    apt:
+      name: apache2
+      state: present
+      update_cache: yes    # fait l'update  de miroir apt
+    become: yes  # devenir root
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Start-apache
+    service:
+      name: apache2
+      state: started
+    become: yes
+...

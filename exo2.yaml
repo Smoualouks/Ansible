@@ -1,8 +1,7 @@
 ---
 - name: Exo 2
   hosts: slave1
-
- # gather_facts: no 
+  gather_facts: yes  # on indique clairement que ces variables  seront utiles.
  
   tasks:
   - name: Mouve file
@@ -11,7 +10,7 @@
   - name: Copy file
     copy: 
       src: files/secret.txt
-      dest: private
+      dest: private/secret.txt
 
   - name: Replace in file
     replace:
