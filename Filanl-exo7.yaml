@@ -83,4 +83,10 @@
     
   - debug: var=content.url
 
+  - name : Curl url
+    command: curl http://localhost/dev1/{{user.name}}.html
+    register: screen_curl
+
+  - debug: var=screen_curl
+
 ...
