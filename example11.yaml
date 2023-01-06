@@ -17,5 +17,5 @@
 
   handlers:
   - name: write_log
-    shell: echo toto > toto.log
+    shell: echo toto >> toto.log
 ...

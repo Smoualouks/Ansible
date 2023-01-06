@@ -1,0 +1,44 @@
+---
+
+- name: exo6_clean
+  hosts: slave1
+
+  vars:
+    repo: https://gitlab.com/Smoualouks/ci-python.git
+    clone_dir: /tmp/calculator
+    group: musketeers
+    members:
+    - {name: athos, pwd: abc_123}
+    - {name: porthos, pwd: abc_456}
+    - {name: aramis, pwd: abc_789}
+
+  tasks:
+   
+       #  Cleaning exo7 ressouces:
+  - name: remove group
+    group:
+      name: "{{ group }}"
+      state: absent
+    become: yes
+  
+  - name: remove user {{ item.name }}
+    user:
+      state: absent
+      name: "{{item.name}}"
+      group: "{{group}}"
+    loop: "{{ members }}"
+    become: yes
+
+    #  Cleaning exo6 ressouces:
+
+    
+  - name: Uninstall Git
+    apt: 
+       name: git
+       state: absent
+    become: yes
+  # removing clone directory
+  - name: remove {{clone_dir}}
+    command: rm -r "{{ clone_dir }}"
+
+...

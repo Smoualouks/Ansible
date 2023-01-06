@@ -1,0 +1,7 @@
+---
+- name: Install Docker
+  debug: msg="Install Docker"
+
+- name: Start Docker Engine
+  debug: msg="Start Docker Engine"
+...

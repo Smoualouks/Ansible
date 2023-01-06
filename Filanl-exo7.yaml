@@ -1,0 +1,69 @@
+- name: Final EXO 7
+  hosts: slave1
+  gather_facts: yes
+  
+
+  # variables declaration
+  vars:
+    groups: [dev, sudo]
+    user:  {name: dev1, pwd: dev1 }
+    prof: Christophe
+    endpoint:  "http://localhost/dev1/{{user.name}}.html"
+  
+  # here the tasks will start
+  tasks:
+
+
+  - name: Install apache
+    
+    apt:
+      name: apache2
+      state: present
+      update_cache: yes    
+    become: yes            
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Start-apache
+    service:
+      name: apache2
+      state: started
+    become: yes
+  
+
+  - name: create group dev
+    group:
+      name: "dev"
+      state: present
+    become: yes
+
+  
+  - name: create user {{ user.name }}
+    user:
+      state: present
+      name: "{{user.name}}"
+      group: "{{item}}"
+      password: "{{ user.pwd | password_hash('sha512')}}"
+    loop: "{{ groups }}"
+    become: yes
+  
+  - name: create dev1 folder
+    command: mkdir /var/www/html/dev1
+ 
+  - name: copy user.html.j2 dans le dossier /var/www/html/dev1
+    template:
+      src: template/user.html.j2
+      dest: "/var/www/html/dev1/{{user.name}}.html"
+
+  - name: symblique link creation
+    command: ln -s /home/osboxes/web_dev1 /var/www/html/dev1
+  
+
+  - name: 
+    uri:
+      url: "{{endpoint}}"
+      method: GET
+    register: content
+    
+  - debug: var=content
+
+...

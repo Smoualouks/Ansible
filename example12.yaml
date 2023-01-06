@@ -1,0 +1,19 @@
+---
+- name: Exemple 11
+  hosts: slave1
+  gather_facts: no
+
+  vars_files:
+  - ./vars/demo.yaml
+
+  vars_prompt:
+  - name: username
+    prompt: "Nom du compte utilisateur"
+    private: no  # yes par défaut
+
+  tasks:
+  - debug: var=packages
+  - debug: var=username
+
+
+...
