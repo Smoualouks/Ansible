@@ -23,9 +23,8 @@
   
   - name: remove user {{ item.name }}
     user:
-      state: absent
+      remove: true
       name: "{{item.name}}"
-      group: "{{group}}"
     loop: "{{ members }}"
     become: yes
 
@@ -39,6 +38,8 @@
     become: yes
   # removing clone directory
   - name: remove {{clone_dir}}
-    command: rm -r "{{ clone_dir }}"
+    file: 
+      path: "{{ clone_dir }}"
+      state: absent
 
 ...
