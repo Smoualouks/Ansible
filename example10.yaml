@@ -1,0 +1,30 @@
+---
+- name: Exemple 10
+  hosts: slave1
+  gather_facts: no
+
+  
+  tasks:
+  - name: Hello
+
+    debug: msg=Hello
+    tags: 
+    - hello
+  
+  - name: Welcome
+
+    debug: msg=Welcome
+    tags:
+    - welcome
+    - always
+  
+  - name: Bye
+
+
+    debug: msg=Bye
+
+
+
+
+
+...

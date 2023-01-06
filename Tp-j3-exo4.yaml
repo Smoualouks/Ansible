@@ -9,7 +9,7 @@
     copy:
       src: files/system.sh
       dest: "system.sh"
-      mode: 755
+      mode: '500'
 
   - name: "executing script"
     shell: ./system.sh 
@@ -19,4 +19,11 @@
 
   - name: show the value of output
     debug: var=output.stdout
+
+# autre façon:
+#     - name: Run a script
+# ansible.builtin.script:
+# path: /files
+# cmd: ./system.sh
+# register: system_out
 ...

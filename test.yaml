@@ -7,13 +7,14 @@
 
   - name: Check that the somefile.conf exists
     stat:
-      path: /etc/izm.txt
+      path: /etc/izm.txt/
     register: stat_result
   
   - name: show the value of stat_result
     debug: var=stat_result
   
   - name: Create the file, if it doesnt exist already
+
     file:
       path: /etc/izm.txt
       state: touch

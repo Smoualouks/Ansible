@@ -1,0 +1,27 @@
+---
+- name: Exemple 8
+  hosts: slave1
+
+  vars:
+    #url: https://whc.unesco.org/document/109845
+    url: https://gitlab.com/cdufour1/nodeapp/-/raw/main/README.md
+    endpoint: https://jsonplaceholder.typicode.com/posts
+
+  tasks:
+
+  - name: download file  
+    get_url:
+      url: "{{url}}"
+      dest: /tmp/README.md
+      mode: '744'
+  # exemple d'intéraction avec une api REST (json)
+  - name: 
+    uri:
+      url: "{{endpoint}}"
+      method: GET
+    register: out
+    
+  - debug: var=out.json[0].title
+
+
+...

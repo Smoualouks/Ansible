@@ -1,0 +1,21 @@
+---
+- name: Exemple 11
+  hosts: slave1
+  gather_facts: no
+
+  
+  tasks:
+  
+  - copy:
+      src: files/hello.txt
+      dest: /tmp/hello.txt
+    notify: write_log
+  - command: cat toto.log
+    register: out
+  - debug: var=out.stdout
+
+
+  handlers:
+  - name: write_log
+    shell: echo toto > toto.log
+...

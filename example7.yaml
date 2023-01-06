@@ -1,0 +1,39 @@
+---
+- name: Exemple 7
+  hosts: slave1
+
+  vars:
+    group: musketeers
+    #members: [athos, porthos, aramis]
+    members:
+    - {name: athos, pwd: abc_123}
+    - {name: porthos, pwd: abc_456}
+    - {name: aramis, pwd: abc_789}
+
+
+  tasks:
+  # - debug: "msg=coucou {{item}}"
+  #   loop: [1,2,3]
+  
+  
+  # - debug: "msg=Mousquetaire => {{item}}"
+  #   loop: "{{members}}"
+
+  - name: create group {{ group }}
+    group:
+      name: "{{ group }}"
+      state: present
+    become: yes
+  
+  - name: create user {{ item}}
+    user:
+      state: present
+      name: "{{item.name}}"
+      shell: /bin/bash
+      # amélioration possible => vault
+      password: "{{ item.pwd | password_hash('sha512')}}"
+      group: "{{group}}"
+    loop: "{{ members }}"
+    become: yes
+
+...

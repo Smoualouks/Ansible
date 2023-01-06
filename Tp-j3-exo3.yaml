@@ -6,6 +6,7 @@
   vars:
     repo: https://gitlab.com/cdufour1/nodeapp.git
     clone_dir: /tmp/nodeapp
+    home: /home/osboxes
 
   tasks:
 
@@ -18,7 +19,6 @@
     git:
       repo: "{{ repo }}"
       dest: "{{ clone_dir }}"
- 
  # installation des paquets npm et nodejs
   - name: Install nodejs and npm
     apt:
@@ -27,9 +27,12 @@
       - npm
     become: yes
    
-  - name: Copy script.js in home directoy
+  - name: Copy script.js in remote contexte
     
-    command: cp {{clone_dir}}/script.js .
+    copy: 
+      src: '{{clone_dir}}/script.js'
+      dest: '{{home}}/script.js'
+      remote_src: yes
           
   - name: run script.js
     command:
