@@ -69,8 +69,8 @@
  # Create symbolic link
   - name: symbolique link creation
     file: 
-      src: /home/osboxes/web_dev1 
-      path: /var/www/html/{{user.name}}
+      dest: /home/osboxes/web_dev1 
+      src: /var/www/html/{{user.name}}
       state: link
       force: true
   
