@@ -5,7 +5,7 @@
 
   # variables declaration
   vars:
-    groups: [dev, sudo]
+    #groups: [dev, sudo]
     user:  {name: dev1, pwd: dev1 }
     prof: Christophe
     endpoint:  "http://localhost/dev1/{{user.name}}.html"
@@ -30,10 +30,13 @@
     become: yes
   
 
-  - name: create group dev
+  - name: create groups
     group:
-      name: "dev"
+      name: "{{ item }}"
       state: present
+    loop:
+      - dev
+      - sudo
     become: yes
 
   
@@ -43,27 +46,41 @@
       name: "{{user.name}}"
       group: "{{item}}"
       password: "{{ user.pwd | password_hash('sha512')}}"
-    loop: "{{ groups }}"
+    loop:
+      - dev
+      - sudo
     become: yes
   
-  - name: create dev1 folder
-    command: mkdir /var/www/html/dev1
+  # create dv1 folder and changing it owner
+
+  - name: Update dev1 folder owner 
+    file:
+       state: directory
+       path: /var/www/html/{{user.name}}
+       owner: "{{ ansible_user }}"
+    become: yes
  
+  
   - name: copy user.html.j2 dans le dossier /var/www/html/dev1
     template:
-      src: template/user.html.j2
+      src: templates/user.html.j2
       dest: "/var/www/html/dev1/{{user.name}}.html"
-
-  - name: symblique link creation
-    command: ln -s /home/osboxes/web_dev1 /var/www/html/dev1
+ 
+ # Create symbolic link
+  - name: symbolique link creation
+    file: 
+      src: /home/osboxes/web_dev1 
+      path: /var/www/html/{{user.name}}
+      state: link
+      force: true
   
-
-  - name: 
+ # http API request:
+  - name:  http API requests
     uri:
       url: "{{endpoint}}"
       method: GET
     register: content
     
-  - debug: var=content
+  - debug: var=content.url
 
 ...
